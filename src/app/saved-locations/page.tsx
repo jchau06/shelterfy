@@ -1,21 +1,50 @@
-import "./page.css"
-import React from "react";
-const page = () => {
-  return (
-    <div>
-      <table id="savedLocationsTable">
-        <thead>
-          <tr>
-            <th>Shelter Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>Zip</th>
-          </tr>
-        </thead>
-        <tbody id="savedLocationsBody"></tbody>
-      </table>
-    </div>
-  );
+'use client';
+
+import {
+	AdvancedMarker,
+	APIProvider,
+	InfoWindow,
+	Map,
+	Pin,
+} from '@vis.gl/react-google-maps';
+import React, { useState } from 'react';
+import SavedLocations from './SavedLocations';
+const FindShelter = () => {
+	// 34.0467° N, 118.5464° W
+	const palisades = { lat: 34.0467, lng: -118.5464 };
+	const [open, setOpen] = useState(false);
+
+	return (
+		<div>
+			<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
+				<div className='w-[78vw] h-[80vh]'>
+					<Map
+						defaultCenter={palisades}
+						defaultZoom={9}
+						gestureHandling='greedy'
+						mapId={process.env.NEXT_PUBLIC_MAP_ID}
+					>
+						<AdvancedMarker
+							position={palisades}
+							onClick={() => setOpen(true)}
+						>
+							<span className='text-3xl'>🔥</span>
+						</AdvancedMarker>
+
+						{open && (
+							<InfoWindow
+								position={palisades}
+								onCloseClick={() => setOpen(false)}
+							>
+								<p className='text-black'>This is Palisades</p>
+							</InfoWindow>
+						)}
+					</Map>
+				</div>
+			</APIProvider>
+            <SavedLocations></SavedLocations>
+		</div>
+	);
 };
 
-export default page;
+export default FindShelter;
