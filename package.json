@@ -9,13 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vis.gl/react-google-maps": "^1.5.0",
     "axios": "^1.7.9",
     "body-parser": "^1.20.3",
     "express": "^4.21.2",
     "next": "15.1.6",
     "pg": "^8.13.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "run-parallel": "^1.2.0"
   },
   "devDependencies": {
     "@chakra-ui/provider": "^2.4.2",
