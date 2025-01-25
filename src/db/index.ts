@@ -3,6 +3,7 @@ import pool from "./connect";
 import path from "path";
 import * as fs from "fs";
 import bodyParser from 'body-parser';
+import { error } from "console";
 var cors = require('cors')
 
 const app = express();
@@ -28,11 +29,6 @@ const initializeDatabase = async () => {
   try {
     const createTablesPath = path.join(__dirname, "tables.sql");
     await executeSqlFile(createTablesPath);
-    try {
-      const result = await dpool.query("");
-    } catch (error) {
-      console.error("Error fetching initial data:", error);
-    }
     console.log("Database initialized successfully!");
   } catch (error) {
     console.error("Error initializing database:", error);
@@ -46,7 +42,7 @@ initializeDatabase().catch((error) => {
 
 app.get("/", async (req, res) => {
   try {
-    const result = await dpool.query("");
+    const result = await dpool.query("SELECT ");
     res.json(result.rows);
   } catch (error) {
     console.error("Error fetching initial data:", error);
@@ -54,6 +50,41 @@ app.get("/", async (req, res) => {
   }
 });
 
+
+app.post("/create", async (req, res) => {
+    // NOTE: this function assumes validation has been done on the frontend!
+    const {userName, fName, lName, email, pass} = req.body;
+    try{
+        await dpool.query("INSERT INTO login_info \
+             (username, firstname, lastname, email, password) VALUES ($1, $2, $3, $4, $5)",
+            [userName, fName, lName, email, pass]
+        );
+        res.status(200).send("Successfully created new user.")
+    }
+    catch(error:any){
+        res.status(500).send(error.message);
+    }
+});
+
+
+app.post("/login", async (req, res) => {
+    const {name, password} = req.body;
+    try{
+        const result = await dpool.query("SELECT (username, password) FROM login_info WHERE username = $1",
+            [name]
+        );
+        if (result.rowCount! < 1){
+            throw new Error("User does not exist!");
+        }
+        if (result.rows[0].password !== password){
+            throw new Error("Incorrect login info!");
+        }
+        res.sendStatus(200);
+    }
+    catch(error:any){
+        res.status(500).send(error.message);
+    }
+});
 
 app.listen(serverPort, () => {
   console.log(`Server running at http://localhost:${serverPort}`);

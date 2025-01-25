@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS login_info (
     user_id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    username VARCHAR(100) NOT NULL,
     firstname TEXT NOT NULL,
     lastname TEXT NOT NULL,
     email VARCHAR(100) NOT NULL,
@@ -14,6 +14,8 @@ CREATE TABLE IF NOT EXISTS locations(
     locality TEXT,
     state_abbr VARCHAR(5),
     zip_code TEXT,
+    latitude DECIMAL,
+    longitude DECIMAL,
     is_shelter BOOLEAN DEFAULT FALSE
 );
 
