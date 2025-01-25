@@ -120,7 +120,7 @@ app.get("/get-saved-loc", async (req, res) => {
       locations.state_abbr,
       locations.zip_code,
       locations.latitude,
-      locations.longitudem
+      locations.longitude,
       locations.is_shelter) FROM locations NATURAL INNER JOIN user_to_location
       WHERE user_to_location.user_id = $1`, [clerkId]);
       res.json(result.rows);
