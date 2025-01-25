@@ -1,3 +1,5 @@
+// This page might be unnecessary with the addition of the landing-page.
+
 import { UserButton } from '@clerk/nextjs';
 import Image from 'next/image';
 

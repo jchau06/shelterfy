@@ -2,8 +2,7 @@
 export default function Page() {
     return (
         <div>
-            <h1>Placeholder</h1>
+            Placeholder
         </div>
-
     )
 }

@@ -20,7 +20,7 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang='en'>
 				<body>
-					<header className='flex justify-end m-5 space-x-4'>
+					<header className='flex justify-end m-5 space-x-7'>
             <Link href="/find-shelter">
             Find Shelter
             </Link>
