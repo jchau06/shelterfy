@@ -13,7 +13,7 @@ const getLocation = async(addrLineOne:string, country:string, zipCode:string|nul
             a1: addrLineOne,
             a2:addrLineTwo?? null,
             ctry: country,
-            postal:zipCode
+            postal:zipCode?? null
         }}
     );
     return JSON.parse(response.data);
