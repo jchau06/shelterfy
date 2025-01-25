@@ -48,8 +48,4 @@ const FindShelter = () => {
 	);
 };
 
-<<<<<<< HEAD
 export default FindShelter;
-=======
-export default FindShelter;
->>>>>>> testing
