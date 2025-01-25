@@ -5,8 +5,9 @@ import { Field } from "@/components/ui/field";
 import { useForm } from "react-hook-form";
 
 interface FormValues {
-  shelterAddress: string;
+  cityName: string;
   zipCode: number;
+  milesVal: number;
 }
 
 export default function Page() {
@@ -36,15 +37,15 @@ export default function Page() {
             <Center>
                 <Field
                     // label="Search for Shelters Near"
-                    invalid={!!errors.shelterAddress}
-                    errorText={errors.shelterAddress?.message}
+                    invalid={!!errors.cityName}
+                    errorText={errors.cityName?.message}
                     textAlign={"center"}
                 >
                     <Input
-                    {...register("shelterAddress", { // Future Change: Only require one input, not all inputs
-                        required: "Address is required.",
+                    {...register("cityName", { // Future Change: Only require one input, not all inputs
+                        required: "City is required.",
                     })}
-                    placeholder="Enter an address."
+                    placeholder="Enter a city."
                     backgroundColor="gray.50"
                     p="2"
                     />
@@ -74,10 +75,36 @@ export default function Page() {
                     />
                 </Field>
             </Center>
+            
+            <Center>
+                <Text
+                textAlign={"center"}>
+                    or
+                </Text>
+            </Center>
 
-          <Button size="sm" type="submit" backgroundColor="gray.50">
-            Submit
-          </Button>
+            <Center>
+                <Field
+                    invalid={!!errors.milesVal}
+                    errorText={errors.milesVal?.message}
+                    textAlign={"center"}
+                >
+                    <Input
+                    {...register("milesVal", {
+                        required: "Miles is required.",
+                    })}
+                    placeholder="Enter a mile radius."
+                    backgroundColor="gray.50"
+                    p="2"
+                    />
+                </Field>
+            </Center>
+
+            <Center>
+                <Button size="xs" type="submit" backgroundColor="gray.50" width="15vw">
+                    Search
+                </Button>
+            </Center>
         </Stack>
       </Flex>
     </form>

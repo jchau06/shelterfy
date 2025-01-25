@@ -26,6 +26,7 @@ export default function RootLayout({
 								<SignUpButton />
 							</SignedOut>
 							<SignedIn>
+								<Link href='/saved-places'>Saved Places</Link>
 								<UserButton />
 							</SignedIn>
 						</nav>
