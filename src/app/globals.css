@@ -22,8 +22,8 @@ body {
 
 .logo {
   position: absolute;
-  top: 10px; /* Space from the top */
-  left: 10px; /* Space from the left */
-  width: 100px; /* Adjust size */
+  top: 15px; /* Space from the top */
+  left: 15px; /* Space from the left */
+  width: 125px; /* Adjust size */
   height: auto; /* Maintain aspect ratio */
 }
