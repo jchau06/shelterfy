@@ -44,11 +44,11 @@ initializeDatabase().catch((error) => {
 
 app.post("/create", async (req, res) => {
     // NOTE: this function assumes validation has been done on the frontend!
-    const {clerkId, userName, fName, lName, email, pass} = req.body;
+    const {clerkId, userName, fName, lName, email} = req.body;
     try{
         await dpool.query("INSERT INTO login_info \
-             (user_id, username, firstname, lastname, email, password) VALUES ($1, $2, $3, $4, $5)",
-            [clerkId, userName, fName, lName, email, pass]
+             (user_id, username, firstname, lastname, email) VALUES ($1, $2, $3, $4, $5)",
+            [clerkId, userName, fName, lName, email]
         );
         res.status(200).send("Successfully created new user.")
     }
@@ -57,25 +57,6 @@ app.post("/create", async (req, res) => {
     }
 });
 
-
-app.post("/login", async (req, res) => {
-    const {name, password} = req.body;
-    try{
-        const result = await dpool.query("SELECT (username, password) FROM login_info WHERE username = $1",
-            [name]
-        );
-        if (result.rowCount! < 1){
-            throw new Error("User does not exist!");
-        }
-        if (result.rows[0].password !== password){
-            throw new Error("Incorrect login info!");
-        }
-        res.sendStatus(200);
-    }
-    catch(error:any){
-        res.status(500).send(error.message);
-    }
-});
 
 app.get("/get-location", async (req, res) => {
   let baseString = "SELECT * FROM locations";

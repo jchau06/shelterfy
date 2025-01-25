@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS login_info (
     firstname TEXT NOT NULL,
     lastname TEXT NOT NULL,
     email VARCHAR(100) NOT NULL,
-    password VARCHAR(40) NOT NULL,
 );
 
 CREATE TABLE IF NOT EXISTS locations(

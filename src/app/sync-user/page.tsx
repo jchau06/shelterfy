@@ -14,6 +14,21 @@ const SyncUser = async () => {
 	}
 
 	// Use "user" to update database here
+	try {
+		const response = await axios.post("http://localhost:3001/create",
+			{
+				clerkId: userId,
+				userName: user.username,
+				fName: user.firstName,
+				lName: user.lastName,
+				email: user.primaryEmailAddress
+
+			}
+		);
+		
+	  } catch (error) {
+		console.error("Error inserting user data:", error);
+	  }
 
 	return redirect('/dashboard');
 };
