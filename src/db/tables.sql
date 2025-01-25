@@ -1,0 +1,7 @@
+-- CREATE TABLE IF NOT EXISTS items (
+--     item_id SERIAL PRIMARY KEY,
+--     name VARCHAR(100) NOT NULL,
+--     quantity INT NOT NULL DEFAULT 0,
+--     unit VARCHAR(20), -- e.g., grams, liters, packets
+--     expiration_date DATE
+-- );
