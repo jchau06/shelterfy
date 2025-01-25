@@ -3,9 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import SearchComponent from './SearchComponent';
 import AppMap from './app-map';
+import { SpinnerCircularFixed } from 'spinners-react';
 
 const FindShelter = () => {
 	const [events, setEvents] = useState(null);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const getEvents = async () => {
@@ -28,6 +30,8 @@ const FindShelter = () => {
 					console.log('Unknown error fetching wildfire data');
 					throw new Error('Unknown error fetching wildfire data');
 				}
+			} finally {
+				setLoading(false);
 			}
 		};
 
@@ -37,6 +41,18 @@ const FindShelter = () => {
 	return (
 		<div>
 			<AppMap events={events} />
+			{loading && (
+				<div className='flex m-4 items-center gap-3'>
+					<span className='text-lg'>Retrieving fire data</span>
+					<SpinnerCircularFixed
+						size={35}
+						thickness={100}
+						speed={100}
+						color='rgba(248, 113, 113, 1)'
+						secondaryColor='rgba(130, 130, 130, 1)'
+					/>
+				</div>
+			)}
 			<SearchComponent></SearchComponent>
 		</div>
 	);
