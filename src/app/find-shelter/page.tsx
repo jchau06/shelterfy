@@ -8,6 +8,10 @@ import { SpinnerCircularFixed } from 'spinners-react';
 const FindShelter = () => {
 	const [events, setEvents] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [userPosition, setUserPosition] = useState<{
+		lat: number;
+		lng: number;
+	} | null>(null);
 
 	useEffect(() => {
 		const getEvents = async () => {
@@ -35,12 +39,28 @@ const FindShelter = () => {
 			}
 		};
 
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				(position) => {
+					setUserPosition({
+						lat: position.coords.latitude,
+						lng: position.coords.longitude,
+					});
+				},
+				(error) => {
+					console.error('Error getting location:', error.message);
+				}
+			);
+		} else {
+			console.error('Geolocation is not supported by this browser.');
+		}
+
 		getEvents();
 	}, []);
 
 	return (
 		<div>
-			<AppMap events={events} />
+			<AppMap events={events} userPosition={userPosition} />
 			{loading && (
 				<div className='flex m-4 items-center gap-3'>
 					<span className='text-lg'>Retrieving fire data</span>
