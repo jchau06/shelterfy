@@ -35,9 +35,13 @@ const FindShelter = () => {
 	}, []);
 
 	return (
-		<div>
-			<AppMap events={events} />
-			<SearchComponent></SearchComponent>
+		<div className="flex flex-row space-x-20">
+            <div>
+			    <AppMap events={events} />
+            </div>
+			<div>
+                <SearchComponent></SearchComponent>
+            </div>
 		</div>
 	);
 };

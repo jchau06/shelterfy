@@ -52,7 +52,7 @@ const AppMap = ({ events }: AppMapProps) => {
 
 	return (
 		<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
-			<div className='w-[78vw] h-[80vh]'>
+			<div className='w-[70vw] h-[80vh]'>
 				<Map
 					defaultCenter={palisades}
 					defaultZoom={9}

@@ -4,7 +4,6 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
-  SignOutButton,
   SignUpButton,
 } from "@clerk/nextjs";
 import "./globals.css";
