@@ -17,7 +17,6 @@ const FindShelter = () => {
 					throw new Error('HTTP error fetching wildfire data');
 				}
 				const data = await res.json();
-				console.log('RETRIEVED EVENTS');
 				setEvents(data.events);
 			} catch (error) {
 				if (error instanceof Error) {
@@ -38,7 +37,7 @@ const FindShelter = () => {
 	return (
 		<div>
 			<AppMap events={events} />
-			{/* <SearchComponent></SearchComponent> */}
+			<SearchComponent></SearchComponent>
 		</div>
 	);
 };

@@ -5,25 +5,27 @@ import React from 'react';
 import Marker from './marker';
 
 type AppMapProps = {
-	events?: {
-		id: string;
-		title: string;
-		description: string;
-		link: string;
-		categories: {
-			id: number;
-			title: string;
-		}[];
-		sources: {
-			id: string;
-			url: string;
-		}[];
-		geometries: {
-			date: string;
-			type: string;
-			coordinates: number[];
-		}[];
-	}[];
+	events:
+		| {
+				id: string;
+				title: string;
+				description: string;
+				link: string;
+				categories: {
+					id: number;
+					title: string;
+				}[];
+				sources: {
+					id: string;
+					url: string;
+				}[];
+				geometries: {
+					date: string;
+					type: string;
+					coordinates: number[];
+				}[];
+		  }[]
+		| null;
 };
 
 const AppMap = ({ events }: AppMapProps) => {
