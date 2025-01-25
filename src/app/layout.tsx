@@ -19,6 +19,7 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang='en'>
 				<body>
+				<img src='logo.png' className='logo'></img>
 					<nav className='flex justify-end m-5 space-x-4'>
 						<Link href='/find-shelter'>Find Shelter</Link>
 						<SignedOut>
