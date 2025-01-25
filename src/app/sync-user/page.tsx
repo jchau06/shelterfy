@@ -1,5 +1,6 @@
 import { auth, clerkClient } from '@clerk/nextjs/server';
 import { notFound, redirect } from 'next/navigation';
+import axios, { AxiosError } from "axios";
 
 const SyncUser = async () => {
 	const { userId } = await auth();
