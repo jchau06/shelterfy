@@ -19,7 +19,8 @@ const getLocation = async(ipAddr:string) => {
   }
 }
 
-// locate any danger near my location
+// find nearby services
+// AE transmission result code = error
 const verifyBuisness = async (addrLineOne:string, city:string, zipCode:string, addrLineTwo:string="") => {
   try {
     const response = await axios.get(BUISNESS_VERIF_BASE,
@@ -39,6 +40,12 @@ const verifyBuisness = async (addrLineOne:string, city:string, zipCode:string, a
 
 
 // find shelters near me
+/* Return code info:
+GS07: results found
+GE51: No pts found
+GR50: invalid coords
+
+*/
 const findNearbyLocations = async (lat:number, long:number) => {
     try {
         const response = await axios.get(GEOCODE_BASE,
