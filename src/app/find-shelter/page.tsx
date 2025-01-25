@@ -1,49 +1,44 @@
 'use client';
 
-import {
-	AdvancedMarker,
-	APIProvider,
-	InfoWindow,
-	Map,
-	Pin,
-} from '@vis.gl/react-google-maps';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchComponent from './SearchComponent';
+import AppMap from './app-map';
 
 const FindShelter = () => {
-	// 34.0467° N, 118.5464° W
-	const palisades = { lat: 34.0467, lng: -118.5464 };
-	const [open, setOpen] = useState(false);
+	const [events, setEvents] = useState(null);
+
+	useEffect(() => {
+		const getEvents = async () => {
+			try {
+				const res = await fetch(
+					'https://eonet.gsfc.nasa.gov/api/v2.1/events?status=open'
+				);
+				if (!res.ok) {
+					throw new Error('HTTP error fetching wildfire data');
+				}
+				const data = await res.json();
+				console.log('RETRIEVED EVENTS');
+				setEvents(data.events);
+			} catch (error) {
+				if (error instanceof Error) {
+					console.log('Error fetching wildfire data:', error.message);
+					throw new Error(
+						`Error fetching wildfire data: ${error.message}`
+					);
+				} else {
+					console.log('Unknown error fetching wildfire data');
+					throw new Error('Unknown error fetching wildfire data');
+				}
+			}
+		};
+
+		getEvents();
+	}, []);
 
 	return (
 		<div>
-			<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
-				<div className='w-[78vw] h-[80vh]'>
-					<Map
-						defaultCenter={palisades}
-						defaultZoom={9}
-						gestureHandling='greedy'
-						mapId={process.env.NEXT_PUBLIC_MAP_ID}
-					>
-						<AdvancedMarker
-							position={palisades}
-							onClick={() => setOpen(true)}
-						>
-							<span className='text-3xl'>🔥</span>
-						</AdvancedMarker>
-
-						{open && (
-							<InfoWindow
-								position={palisades}
-								onCloseClick={() => setOpen(false)}
-							>
-								<p className='text-black'>This is Palisades</p>
-							</InfoWindow>
-						)}
-					</Map>
-				</div>
-			</APIProvider>
-			<SearchComponent></SearchComponent>
+			<AppMap events={events} />
+			{/* <SearchComponent></SearchComponent> */}
 		</div>
 	);
 };
