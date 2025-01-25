@@ -40,24 +40,15 @@ initializeDatabase().catch((error) => {
   process.exit(1); 
 });
 
-app.get("/", async (req, res) => {
-  try {
-    const result = await dpool.query("SELECT ");
-    res.json(result.rows);
-  } catch (error) {
-    console.error("Error fetching initial data:", error);
-    res.status(500).json({ error: "Failed to fetch data" });
-  }
-});
 
 
 app.post("/create", async (req, res) => {
     // NOTE: this function assumes validation has been done on the frontend!
-    const {userName, fName, lName, email, pass} = req.body;
+    const {clerkId, userName, fName, lName, email, pass} = req.body;
     try{
         await dpool.query("INSERT INTO login_info \
-             (username, firstname, lastname, email, password) VALUES ($1, $2, $3, $4, $5)",
-            [userName, fName, lName, email, pass]
+             (user_id, username, firstname, lastname, email, password) VALUES ($1, $2, $3, $4, $5)",
+            [clerkId, userName, fName, lName, email, pass]
         );
         res.status(200).send("Successfully created new user.")
     }
@@ -87,15 +78,68 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/get-location", async (req, res) => {
-
+  let baseString = "SELECT * FROM locations";
+  const locParams = req.body;
+  let usedParams:Array<string>;
+  if (locParams.zipCode != null){
+    baseString += "WHERE zip_code = $1";
+    usedParams = [locParams.zipCode];
+  }
+  else if (locParams.addrLineOne != null){
+    baseString += `WHERE address_line_one = $1 ${locParams.addrLineTwo && " AND WHERE address_line_two = $2"}}`; 
+    usedParams = [locParams.addrLineOne, locParams.addrLineTwo].filter((elem) => elem != null);
+  }
+  else {
+    throw new Error("this shouldn't happen i guess");
+  }
+  try{
+    const result = await dpool.query(baseString,
+        [...usedParams]
+    );
+    
+    res.json(result.rows);
+}
+catch(error:any){
+    res.status(500).send(error.message);
+}
 });
 
 app.post("/add-location", async (req, res) => {
-
+  const locParams = req.body;
+  let baseString = `INSERT INTO locations 
+  (address_line_one, locality, state_abbr, zip_code, latitude, longitude 
+  ${locParams.addrLineTwo && ",address_line_two "}
+  ${locParams.isShelter && ",is_shelter"})
+  VALUES ($1, $2, $3, $4, $5, $6 ${locParams.addrLineTwo && ",$7 "}
+  ${(locParams.addrLineTwo != null && locParams.isShelter && ",$8") ||
+    (locParams.isShelter && ",$7")
+   })`;
+  try{
+    await dpool.query(baseString,
+        [locParams.addrLineOne, locParams.stateAbbr,
+          locParams.zipCode, locParams.lat, locParams.long, locParams.addrLineTwo?? null, locParams.isShelter?? null
+        ].filter((elem) => elem != null)
+    );
+    
+    res.sendStatus(200);
+}
+catch(error:any){
+    res.status(500).send(error.message);
+}
 });
 
 app.post("/add-to-saved-loc", async (req, res) => {
-
+  const {clerkId, locId}:{clerkId:string, locId:number} = req.body;
+  try{
+    await dpool.query("INSERT INTO user_to_locations (user_id, loc_id) VALUES ($1, $2)",
+        [clerkId, locId]
+    );
+    
+    res.sendStatus(200);
+}
+catch(error:any){
+    res.status(500).send(error.message);
+}
 });
 
 
