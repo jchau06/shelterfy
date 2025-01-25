@@ -19,7 +19,7 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang='en'>
 				<body>
-					<header className='flex justify-end m-5 space-x-4'>
+					<nav className='flex justify-end m-5 space-x-4'>
 						<Link href='/find-shelter'>Find Shelter</Link>
 						<SignedOut>
 							<SignInButton />
@@ -28,7 +28,7 @@ export default function RootLayout({
 						<SignedIn>
 							<UserButton />
 						</SignedIn>
-					</header>
+					</nav>
 					<main>{children}</main>
 				</body>
 			</html>
