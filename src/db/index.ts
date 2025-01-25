@@ -44,7 +44,12 @@ initializeDatabase().catch((error) => {
 
 app.post("/create", async (req, res) => {
     // NOTE: this function assumes validation has been done on the frontend!
-    const {clerkId, userName, fName, lName, email} = req.body;
+    const {clerkId, userName, fName, lName, email}:{clerkId:string,
+      userName:string,
+      fName:string,
+      lName:string,
+      email:string
+    } = req.body;
     try{
         await dpool.query("INSERT INTO login_info \
              (user_id, username, firstname, lastname, email) VALUES ($1, $2, $3, $4, $5)",
@@ -86,7 +91,13 @@ catch(error:any){
 });
 
 app.post("/add-location", async (req, res) => {
-  const locParams = req.body;
+  const locParams:{addrLineOne:string,
+    stateAbbr:string,
+    zipCode:string,
+    lat:number,
+    long:number,
+    isShelter?: Boolean
+  } = req.body;
   let baseString = `INSERT INTO locations 
   (address_line_one, locality, state_abbr, zip_code, latitude, longitude 
   ${locParams.isShelter && ",is_shelter"})
