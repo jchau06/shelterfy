@@ -8,16 +8,23 @@ import {
 } from '@clerk/nextjs';
 import './globals.css';
 import Link from 'next/link';
-import { Provider } from "@/components/ui/provider"
+import { Exo } from 'next/font/google'
+
+const exo = Exo({
+	weight: '400',
+	subsets: ['latin'],
+	display: 'swap',
+})
 
 export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
+
 }) {
 	return (
 			<ClerkProvider>
-				<html lang='en'>
+				<html lang='en' className={exo.className}>
 					<body>
 						<nav className='flex justify-end m-5 space-x-4'>
 							<Link href='/find-shelter'>Find Shelter</Link>
@@ -30,9 +37,7 @@ export default function RootLayout({
 								<UserButton />
 							</SignedIn>
 						</nav>
-						<Provider>
 							<main>{children}</main>
-						</Provider>
 					</body>
 				</html>
 			</ClerkProvider>
