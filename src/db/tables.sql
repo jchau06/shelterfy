@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS login_info (
 CREATE TABLE IF NOT EXISTS locations(
     loc_id SERIAL PRIMARY KEY,
     address_line_one TEXT NOT NULL,
-    address_line_two TEXT,
     locality TEXT NOT NULL,
     state_abbr VARCHAR(5) NOT NULL,
     zip_code TEXT NOT NULL,
