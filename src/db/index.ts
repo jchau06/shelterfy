@@ -86,6 +86,19 @@ app.post("/login", async (req, res) => {
     }
 });
 
+app.get("/get-location", async (req, res) => {
+
+});
+
+app.post("/add-location", async (req, res) => {
+
+});
+
+app.post("/add-to-saved-loc", async (req, res) => {
+
+});
+
+
 app.listen(serverPort, () => {
   console.log(`Server running at http://localhost:${serverPort}`);
 });
