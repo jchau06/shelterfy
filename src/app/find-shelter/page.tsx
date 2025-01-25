@@ -8,6 +8,7 @@ import {
 	Pin,
 } from '@vis.gl/react-google-maps';
 import React, { useState } from 'react';
+import SearchComponent from './SearchComponent';
 
 const FindShelter = () => {
 	// 34.0467° N, 118.5464° W
@@ -15,32 +16,35 @@ const FindShelter = () => {
 	const [open, setOpen] = useState(false);
 
 	return (
-		<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
-			<div className='w-[78vw] h-[80vh]'>
-				<Map
-					defaultCenter={palisades}
-					defaultZoom={9}
-					gestureHandling='greedy'
-					mapId={process.env.NEXT_PUBLIC_MAP_ID}
-				>
-					<AdvancedMarker
-						position={palisades}
-						onClick={() => setOpen(true)}
+		<div>
+			<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
+				<div className='w-[78vw] h-[80vh]'>
+					<Map
+						defaultCenter={palisades}
+						defaultZoom={9}
+						gestureHandling='greedy'
+						mapId={process.env.NEXT_PUBLIC_MAP_ID}
 					>
-						<span className='text-3xl'>🔥</span>
-					</AdvancedMarker>
-
-					{open && (
-						<InfoWindow
+						<AdvancedMarker
 							position={palisades}
-							onCloseClick={() => setOpen(false)}
+							onClick={() => setOpen(true)}
 						>
-							<p className='text-black'>This is Palisades</p>
-						</InfoWindow>
-					)}
-				</Map>
-			</div>
-		</APIProvider>
+							<span className='text-3xl'>🔥</span>
+						</AdvancedMarker>
+
+						{open && (
+							<InfoWindow
+								position={palisades}
+								onCloseClick={() => setOpen(false)}
+							>
+								<p className='text-black'>This is Palisades</p>
+							</InfoWindow>
+						)}
+					</Map>
+				</div>
+			</APIProvider>
+			<SearchComponent></SearchComponent>
+		</div>
 	);
 };
 
