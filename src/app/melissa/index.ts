@@ -4,13 +4,15 @@ const GEOCODE_BASE = "https://reversegeo.melissadata.net/v3/web/ReverseGeoCode/d
 const GLOBAL_LOCATOR_BASE = "https://address.melissadata.net/V3/WEB/GlobalAddress/doGlobalAddress";
 const BUISNESS_VERIF_BASE = "https://businesscoder.melissadata.net/WEB/BusinessCoder/doBusinessCoderUS";
 
-// get info on users' current location
-const getLocation = async(ipAddr:string) => {
+// get info on a given location
+const getLocation = async(addrLineOne:string, country:string, zipCode:string|null=null) => {
   try {
     const response = await axios.get(GLOBAL_LOCATOR_BASE,
         {params:{
             id: env.MELISSA_LICENSE_KEY,
-            ip: ipAddr 
+            a1: addrLineOne,
+            ctry: country,
+            postal:zipCode
         }}
     );
     return JSON.parse(response.data);
