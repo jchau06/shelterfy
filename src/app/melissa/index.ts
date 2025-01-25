@@ -1,14 +1,28 @@
 import axios, {AxiosError} from 'axios';
 import {env} from "node:process";
 const GEOCODE_BASE = "https://reversegeo.melissadata.net/v3/web/ReverseGeoCode/doLookup";
+const GLOBAL_LOCATOR_BASE = "https://address.melissadata.net/V3/WEB/GlobalAddress/doGlobalAddress";
 
 
-// verify address' proximity to fires
+// get info on users' current location
+const getLocation = async(ipAddr:string) => {
+  try {
+    const response = await axios.get(GEOCODE_BASE,
+        {params:{
+            id: env.MELISSA_LICENSE_KEY,
+            ip: ipAddr 
+        }}
+    );
+    return JSON.parse(response.data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
 
 // locate any danger near my location
 
 // find shelters near me
-async function findNearbyLocations(lat:number, long:number){
+const findNearbyLocations = async (lat:number, long:number) => {
     try {
         const response = await axios.get(GEOCODE_BASE,
             {params:{
@@ -18,8 +32,10 @@ async function findNearbyLocations(lat:number, long:number){
                 opt: "IncludeApartments:on"
             }}
         );
-        return response.data;
+        return JSON.parse(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
 }
+
+export default {findNearbyLocations, getLocation};
