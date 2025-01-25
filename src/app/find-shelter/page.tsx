@@ -1,13 +1,4 @@
-<<<<<<< Updated upstream
-
-export default function Page() {
-    return (
-        <div>
-            <h1>Placeholder</h1>
-        </div>
-=======
-'use client';
->>>>>>> Stashed changes
+'use client'
 
 import {
 	AdvancedMarker,
