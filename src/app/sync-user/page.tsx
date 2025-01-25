@@ -14,7 +14,7 @@ const SyncUser = async () => {
 
 	// Use "user" to update database here
 
-	return redirect('/landing-page');
+	return redirect('/dashboard');
 };
 
 export default SyncUser;
