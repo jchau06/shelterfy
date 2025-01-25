@@ -109,6 +109,27 @@ catch(error:any){
 }
 });
 
+
+app.get("/get-saved-loc", async (req, res) => {
+  const {clerkId}:{clerkId:string} = req.body;
+  try{
+    const result = await dpool.query(`SELECT (locations.loc_id,
+      locations.address_line_one,
+      locations.address_line_two,
+      locations.locality,
+      locations.state_abbr,
+      locations.zip_code,
+      locations.latitude,
+      locations.longitudem
+      locations.is_shelter) FROM locations NATURAL INNER JOIN user_to_location
+      WHERE user_to_location.user_id = $1`, [clerkId]);
+      res.json(result.rows);
+  }
+  catch(error:any){
+    res.status(500).send(error.message);
+  }
+});
+
 app.post("/add-to-saved-loc", async (req, res) => {
   const {clerkId, locId}:{clerkId:string, locId:number} = req.body;
   try{
