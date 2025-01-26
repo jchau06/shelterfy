@@ -62,6 +62,8 @@ const AppMap = ({ events, userPosition }: AppMapProps) => {
 					defaultZoom={9}
 					gestureHandling='greedy'
 					mapId={process.env.NEXT_PUBLIC_MAP_ID}
+					reuseMaps
+					colorScheme='DARK'
 				>
 					{fireMarkers}
 					{userPosition && (

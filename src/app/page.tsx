@@ -1,7 +1,7 @@
 export default function Home() {
 	return (
 		<main>
-			<div className='flex flex-col items-center justify-center w-screen h-screen'>
+			<div className='flex flex-grow flex-col items-center justify-center h-[90vh]'>
 				<div>
 					<h1 className='text-5xl text-red-400 mb-5'>Shelterfy</h1>
 					<h2 className='text-3xl text-white-400'>

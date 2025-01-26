@@ -63,7 +63,7 @@ const FindShelter = () => {
 			<AppMap events={events} userPosition={userPosition} />
 			{loading && (
 				<div className='flex m-4 items-center gap-3'>
-					<span className='text-lg'>Retrieving fire data</span>
+					<span className='text-lg'>Fetching wildfire data</span>
 					<SpinnerCircularFixed
 						size={35}
 						thickness={100}
