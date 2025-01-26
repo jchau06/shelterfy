@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS login_info (
     username VARCHAR(100) NOT NULL,
     firstname TEXT NOT NULL,
     lastname TEXT NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS locations(
@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS locations(
 );
 
 CREATE TABLE IF NOT EXISTS user_to_location(
-    user_id TEXT PRIMARY KEY REFERENCES login_info(user_id),
-    loc_id BIGINT PRIMARY KEY REFERENCES locations(loc_id)
+    user_id TEXT  REFERENCES login_info(user_id),
+    loc_id BIGINT  REFERENCES locations(loc_id),
+    PRIMARY KEY (user_id, loc_id)
 );
