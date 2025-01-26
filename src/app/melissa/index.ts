@@ -83,6 +83,5 @@ const findNearbyLocations = async (lat: number, long: number) => {
 	}
 };
 
-export default { findNearbyLocations, getLocation, verifyBuisness };
 
 export default { getLocation, verifyBuisness };
