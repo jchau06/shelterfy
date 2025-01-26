@@ -17,7 +17,7 @@ const SavedLocations = () => {
   return (
     <div>
       <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
-        <div className="w-[78vw] h-[80vh]">
+        <div className="w-[68vw] h-[80vh]">
           <Map
             defaultCenter={palisades}
             defaultZoom={9}
