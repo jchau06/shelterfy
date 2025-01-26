@@ -1,21 +1,36 @@
 import express from "express";
-import pool from "./connect"; 
 import path from "path";
 import * as fs from "fs";
 import bodyParser from 'body-parser';
-import { error } from "console";
 var cors = require('cors')
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 const serverPort = 3001;
-let dpool = pool;
+
+require("dotenv").config();
+
+const http = require("http");
+const { neon } = require("@neondatabase/serverless");
+
+const sql = neon(process.env.DATABASE_URL);
+
+// const requestHandler = async (req, res) => {
+//   const result = await sql`SELECT version()`;
+//   const { version } = result[0];
+//   res.writeHead(200, { "Content-Type": "text/plain" });
+//   res.end(version);
+// };
+
+// http.createServer(requestHandler).listen(3001, () => {
+//   console.log("Server running at http://localhost:3001");
+// });
 
 const executeSqlFile = async (filePath: string): Promise<void> => {
   try {
-    const sql = fs.readFileSync(filePath, "utf-8");
-    await dpool.query(sql);
+    const sqlEx = fs.readFileSync(filePath, "utf-8");
+    await sql(sqlEx);
     console.log(`Successfully executed ${path.basename(filePath)}`);
   } catch (error) {
     console.error(`Error executing ${path.basename(filePath)}:`, error);
@@ -51,7 +66,7 @@ app.post("/create", async (req, res) => {
       email:string
     } = req.body;
     try{
-        await dpool.query("INSERT INTO login_info \
+        await sql("INSERT INTO login_info \
              (user_id, username, firstname, lastname, email) VALUES ($1, $2, $3, $4, $5)",
             [clerkId, userName, fName, lName, email]
         );
@@ -79,7 +94,7 @@ app.get("/get-location", async (req, res) => {
     throw new Error("this shouldn't happen i guess");
   }
   try{
-    const result = await dpool.query(baseString,
+    const result = await sql(baseString,
         [...usedParams]
     );
     
@@ -103,7 +118,7 @@ app.post("/add-location", async (req, res) => {
   ${locParams.isShelter && ",is_shelter"})
   VALUES ($1, $2, $3, $4, $5, $6 ${locParams.isShelter && ",$7 "})`;
   try{
-    await dpool.query(baseString,
+    await sql(baseString,
         [locParams.addrLineOne, locParams.stateAbbr,
           locParams.zipCode, locParams.lat, locParams.long, locParams.isShelter?? null
         ].filter((elem) => elem != null)
@@ -120,7 +135,7 @@ catch(error:any){
 app.get("/get-saved-loc", async (req, res) => {
   const {clerkId}:{clerkId:string} = req.body;
   try{
-    const result = await dpool.query(`SELECT (locations.loc_id,
+    const result = await sql(`SELECT (locations.loc_id,
       locations.address_line_one,
       locations.locality,
       locations.state_abbr,
@@ -139,7 +154,7 @@ app.get("/get-saved-loc", async (req, res) => {
 app.post("/add-to-saved-loc", async (req, res) => {
   const {clerkId, locId}:{clerkId:string, locId:number} = req.body;
   try{
-    await dpool.query("INSERT INTO user_to_locations (user_id, loc_id) VALUES ($1, $2)",
+    await sql("INSERT INTO user_to_locations (user_id, loc_id) VALUES ($1, $2)",
         [clerkId, locId]
     );
     
