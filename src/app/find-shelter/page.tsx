@@ -5,6 +5,7 @@ import SearchComponent from './SearchComponent';
 import AppMap from './app-map';
 import { SpinnerCircularFixed } from 'spinners-react';
 import axios, { AxiosResponse } from 'axios';
+import { getUserLocation, getEvents } from '@/lib/utils';
 
 type ShelterData = {
 	address: string;
@@ -68,8 +69,7 @@ const FindShelter = () => {
 			};
 			const headers = {
 				'x-rapidapi-host': 'homeless-shelter.p.rapidapi.com',
-				'x-rapidapi-key':
-					'fb5e98260emshf81df3cb1fd50cap129c09jsnc8066210ed42',
+				'x-rapidapi-key': process.env.NEXT_PUBLIC_SHELTER_API_KEY,
 			};
 
 			try {

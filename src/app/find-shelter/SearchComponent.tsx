@@ -1,5 +1,6 @@
 'use client';
 
+import axios from 'axios';
 import React, { useState } from 'react';
 
 // Seearch results are all type Shelter
@@ -9,104 +10,77 @@ type Shelter = {
 	address: string;
 	zip: number;
 };
+
+const getShelterData = async (city?: string, state?: string, zip?: number) => {
+	// Not finished
+
+	if (!(city && state) || !zip) {
+		return;
+	}
+
+	let url = '';
+	let params = {};
+	if (city && state) {
+		url = 'https://homeless-shelter.p.rapidapi.com/state-city';
+		let params = {
+			state: state,
+			city: city,
+		};
+	} else if (zip) {
+		url = 'https://homeless-shelter.p.rapidapi.com/zipcode';
+		let params = {
+			zipcode: zip,
+		};
+	} else {
+		return;
+	}
+
+	let data = [];
+
+	const headers = {
+		'x-rapidapi-host': 'homeless-shelter.p.rapidapi.com',
+		'x-rapidapi-key': process.env.NEXT_PUBLIC_SHELTER_API_KEY,
+	};
+
+	try {
+		const response = await axios.get(url, {
+			params,
+			headers,
+		});
+		data = response.data;
+	} catch (error) {
+		console.error('Error fetching shelters:', error);
+	}
+
+	return data;
+};
+
 const SearchComponent = () => {
-	const [address, setAddress] = useState('');
-	const [zipCode, setZipCode] = useState('');
+	const [formData, setFormData] = useState({
+		city: '',
+		state: '',
+		zipCode: '',
+	});
 	const [results, setResults] = useState<Shelter[]>([]);
-	const [loading, setLoading] = useState(false); // Add loading state
+	const [loading, setLoading] = useState(false);
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setFormData({ ...formData, [name]: value });
+	};
   const [userPressed, setPressed] = useState(false); //Edit no results found message.
 
 	const handleSearch = () => {
-		if (!address && !zipCode) {
-			return;
-		}
-		setLoading(true);
+		console.log('submitted');
 
-		console.log('ADDRESS:', address);
-		console.log('ZIP:', zipCode);
+		// setLoading(true);
 
-		//  Tester DB just for functionality
-		const mockData = [
-			{
-				id: 1,
-				name: 'Shelter One',
-				address: '123 Shelter St',
-				zip: 12345,
-			},
-			{
-				id: 2,
-				name: 'Shelter Two',
-				address: '456 Safe Haven Ave',
-				zip: 23456,
-			},
-			{
-				id: 3,
-				name: 'Shelter Three',
-				address: '789 Homeless St',
-				zip: 90012,
-			},
-			{
-				id: 4,
-				name: 'Shelter Four',
-				address: '145 Zip Code Ave',
-				zip: 34567,
-			}, // Example with zip code
-			{
-				id: 5,
-				name: 'Shelter Five',
-				address: '123 Shelter Rd',
-				zip: 13253,
-			},
-			{ id: 6, name: 'Shelter Six', address: '7890 New St', zip: 12743 },
-			{
-				id: 7,
-				name: 'Shelter Seven',
-				address: '456 Shelter St',
-				zip: 12345,
-			},
-			{
-				id: 8,
-				name: 'Shelter Eight',
-				address: '1 Shelter St',
-				zip: 12345,
-			},
-			{
-				id: 9,
-				name: 'Shelter Nine',
-				address: '2 Shelter St',
-				zip: 12345,
-			},
-			{
-				id: 10,
-				name: 'Shelter Ten',
-				address: '3 Shelter St',
-				zip: 12345,
-			},
-			{ id: 11, name: 'Shelter E', address: '4 Shelter St', zip: 12345 },
-		];
+		// console.log('CITY:', formData.city);
+		// console.log('STATE:', formData.state);
+		// console.log('ZIP:', formData.zipCode);
 
-		// Use a conditional to filter results based on the input type
-		let filteredResults: Shelter[] = [];
-
-		if (address) {
-			// Filter by address if an address is provided
-			filteredResults = mockData.filter(
-				(item) =>
-					item.address
-						.toLowerCase()
-						.includes(address.toLowerCase()) ||
-					item.name.toLowerCase().includes(address.toLowerCase()) // Can search by address or name of location
-			);
-		} else if (zipCode) {
-			filteredResults = mockData.filter(
-				(item) => item.zip === parseInt(zipCode)
-			); // Exact match for zip code
-		}
-
-		console.log(filteredResults);
-		setResults(filteredResults); // Set the filtered results
-		setLoading(false); // Set loading to false after fetching the results
-    setPressed(true);
+		// setLoading(false);
+    // setPressed(true); // If no results are found => error message is output.
 	};
 
 
@@ -125,63 +99,45 @@ const SearchComponent = () => {
 				boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
 			}}
 		>
-			<h2
-				style={{
-					fontSize: '18px',
-					fontWeight: 'bold',
-					marginBottom: '16px',
-					color: 'black',
-				}}
-			>
-				Search for Shelters Near
-			</h2>
-			<input
-				type='text'
-				placeholder='enter an address'
-				value={address}
-				onChange={(e) => setAddress(e.target.value)}
-				style={{
-					width: '100%',
-					padding: '10px',
-					marginBottom: '10px',
-					borderRadius: '6px',
-					border: '1px solid #CCC',
-					boxSizing: 'border-box',
-					color: 'black',
-				}}
-			/>
-			<p style={{ margin: '8px 0', fontSize: '14px', color: '#888' }}>
-				or
-			</p>
-			<input
-				type='number'
-				placeholder='enter a zip code'
-				value={zipCode}
-				onChange={(e) => setZipCode(e.target.value)}
-				style={{
-					width: '100%',
-					padding: '10px',
-					marginBottom: '16px',
-					borderRadius: '6px',
-					border: '1px solid #CCC',
-					boxSizing: 'border-box',
-					color: 'black',
-				}}
-			/>
-			<button
-				onClick={handleSearch}
-				style={{
-					width: '100%',
-					padding: '10px',
-					backgroundColor: '#007BFF',
-					color: '#FFF',
-					border: 'none',
-					borderRadius: '6px',
-					cursor: 'pointer',
-				}}
-			>
-				Search
-			</button>
+			<form>
+				<h2 className='text-[18px] font-bold mb-4 text-black'>
+					Search for Shelters Near
+				</h2>
+				<input
+					type='text'
+					name='city'
+					placeholder='Enter a city'
+					value={formData.city}
+					onChange={handleChange}
+					required
+					className='w-full p-[10px] mb-[10px] rounded-[6px] border-gray-500 box-border text-black'
+				/>
+				<input
+					type='text'
+					name='state'
+					placeholder='Enter a state'
+					value={formData.state}
+					onChange={handleChange}
+					required
+					className='w-full p-[10px] mb-[10px] rounded-[6px] border-gray-500 box-border text-black'
+				/>
+				<input
+					type='number'
+					name='zipCode'
+					placeholder='Enter a zip code'
+					value={formData.zipCode}
+					onChange={handleChange}
+					required
+					className='w-full p-[10px] mb-[10px] rounded-[6px] border-gray-500 box-border text-black'
+				/>
+				<button
+					type='submit'
+					onClick={handleSearch}
+					className='w-full p-[10px] bg-[#007BFF] text-white border-none rounded-[6px] cursor-pointer'
+				>
+					Search
+				</button>
+			</form>
 			{loading && <p>Loading search results...</p>}{' '}
 			{/* Display loading message */}
 			{results.length > 0 && (

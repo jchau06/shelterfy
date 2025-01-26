@@ -1,38 +1,9 @@
 import axios, { AxiosError } from 'axios';
 import { env } from 'node:process';
-const GEOCODE_BASE =
-	'https://reversegeo.melissadata.net/v3/web/ReverseGeoCode/doLookup';
-const GLOBAL_LOCATOR_BASE =
-	'https://address.melissadata.net/V3/WEB/GlobalAddress/doGlobalAddress';
+const PROPERTY_VERIF_BASE = "https://property.melissadata.net/v4/WEB/LookupDeeds/";
 const BUISNESS_VERIF_BASE =
 	'https://businesscoder.melissadata.net/WEB/BusinessCoder/doBusinessCoderUS';
 
-// get info on a given location
-const getLocation = async (
-	addrLineOne: string,
-	country: string,
-	zipCode: string,
-	locality: string
-) => {
-	try {
-		const response = await axios.get(GLOBAL_LOCATOR_BASE, {
-			params: {
-				id: env.MELISSA_LICENSE_KEY,
-				a1: addrLineOne,
-				locality: locality,
-				ctry: country,
-				postal: zipCode,
-			},
-		});
-		const jsonParsedResp = JSON.parse(response.data);
-		return findNearbyLocations(
-			parseFloat(jsonParsedResp['Records']['Latitude']),
-			parseFloat(jsonParsedResp['Records']['Longitude'])
-		);
-	} catch (error) {
-		console.error('Error fetching data:', error);
-	}
-};
 
 // find nearby services
 // AE transmission result code = error
@@ -54,7 +25,7 @@ const verifyBuisness = async (
 				ctry: country,
 			},
 		});
-		return JSON.parse(response.data);
+		return verifyProperty(JSON.parse(response.data)["MelissaAddressKey"]);
 	} catch (error) {
 		console.error('Error fetching data:', error);
 	}
@@ -67,21 +38,19 @@ GE51: No pts found
 GR50: invalid coords
 
 */
-const findNearbyLocations = async (lat: number, long: number) => {
+
+const verifyProperty = async (melissaAddrKey:string) =>{
 	try {
-		const response = await axios.get(GEOCODE_BASE, {
+		const response = await axios.get(PROPERTY_VERIF_BASE, {
 			params: {
 				id: env.MELISSA_LICENSE_KEY,
-				lat: lat,
-				long: long,
-				opt: 'IncludeApartments:on',
+				mak: melissaAddrKey
 			},
 		});
 		return JSON.parse(response.data);
 	} catch (error) {
 		console.error('Error fetching data:', error);
 	}
-};
+}
 
-
-export default { getLocation, verifyBuisness };
+export default {verifyBuisness};
