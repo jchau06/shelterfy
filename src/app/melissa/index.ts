@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { env } from 'node:process';
+
 const PROPERTY_VERIF_BASE = "https://property.melissadata.net/v4/WEB/LookupDeeds/";
 const BUISNESS_VERIF_BASE =
 	'https://businesscoder.melissadata.net/WEB/BusinessCoder/doBusinessCoderUS';
@@ -17,7 +17,7 @@ const verifyBuisness = async (
 	try {
 		const response = await axios.get(BUISNESS_VERIF_BASE, {
 			params: {
-				id: env.MELISSA_LICENSE_KEY,
+				id: process.env.MELISSA_LICENSE_KEY,
 				a1: addrLineOne,
 				city: city,
 				state: state,
