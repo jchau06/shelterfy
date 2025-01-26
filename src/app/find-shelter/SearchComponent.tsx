@@ -97,7 +97,7 @@ const SearchComponent = ({
 				onClick={handleSearch}
 				className='w-full p-[10px] bg-[#007BFF] text-white border-none rounded-[6px] cursor-pointer'
 			>
-				Get shelters near me
+				Find shelters near me
 			</button>
 		</div>
 	);
