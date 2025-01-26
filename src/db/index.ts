@@ -23,37 +23,37 @@ const sql = neon(process.env.DATABASE_URL);
 //   res.end(version);
 // };
 
-// http.createServer(requestHandler).listen(3001, () => {
-//   console.log("Server running at http://localhost:3001");
+// http.createServer(requestHandler).listen(3002, () => {
+//   console.log("Server running at http://localhost:3002");
 // });
 
-const executeSqlFile = async (filePath: string): Promise<void> => {
-  try {
-    const sqlEx = fs.readFileSync(filePath, "utf-8");
-    await sql(sqlEx);
-    console.log(`Successfully executed ${path.basename(filePath)}`);
-  } catch (error) {
-    console.error(`Error executing ${path.basename(filePath)}:`, error);
-    throw error;
-  }
-};
+// const executeSqlFile = async (filePath: string): Promise<void> => {
+//   try {
+//     const sqlEx = fs.readFileSync(filePath, "utf-8");
+//     await sql(sqlEx);
+//     console.log(`Successfully executed ${path.basename(filePath)}`);
+//   } catch (error) {
+//     console.error(`Error executing ${path.basename(filePath)}:`, error);
+//     throw error;
+//   }
+// };
 
 
 
-const initializeDatabase = async () => {
-  try {
-    const createTablesPath = path.join(__dirname, "tables.sql");
-    await executeSqlFile(createTablesPath);
-    console.log("Database initialized successfully!");
-  } catch (error) {
-    console.error("Error initializing database:", error);
-  } 
-};
+// const initializeDatabase = async () => {
+//   try {
+//     const createTablesPath = path.join(__dirname, "tables.sql");
+//     await executeSqlFile(createTablesPath);
+//     console.log("Database initialized successfully!");
+//   } catch (error) {
+//     console.error("Error initializing database:", error);
+//   } 
+// };
 
-initializeDatabase().catch((error) => {
-  console.error("Database initialization failed. Exiting application.", error);
-  process.exit(1); 
-});
+// initializeDatabase().catch((error) => {
+//   console.error("Database initialization failed. Exiting application.", error);
+//   process.exit(1); 
+// });
 
 
 
