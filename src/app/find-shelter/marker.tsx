@@ -7,7 +7,7 @@ type MarkerProps = {
 		lng: number;
 	};
 	icon: string;
-	infoWindowContent: string;
+	infoWindowContent?: string;
 };
 
 const Marker = ({ position, icon, infoWindowContent }: MarkerProps) => {
