@@ -36,11 +36,6 @@ export default function RootLayout({
 							</Link>
 						</div>
 						<div className='flex items-center justify-center gap-x-9'>
-							<Link href='/saved-locations' className={exo.className}>
-								<span className='font-bold text-xl'>
-									Saved Locations
-								</span>
-							</Link>
 							<Link href='/find-shelter' className={exo.className}>
 								<span className='font-bold text-xl'>
 									Find Shelter
@@ -51,6 +46,11 @@ export default function RootLayout({
 								<SignUpButton />
 							</SignedOut>
 							<SignedIn>
+							<Link href='/saved-locations' className={exo.className}>
+								<span className='font-bold text-xl'>
+									Saved Locations
+								</span>
+							</Link>
 								<UserButton />
 							</SignedIn>
 						</div>

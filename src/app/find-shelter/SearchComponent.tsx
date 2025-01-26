@@ -95,7 +95,7 @@ const SearchComponent = ({
 		<div>
 			<button
 				onClick={handleSearch}
-				className='w-full p-[10px] bg-[#007BFF] text-white border-none rounded-[6px] cursor-pointer'
+				className='w-full p-[10px] bg-[#007BFF] text-white border-none rounded-[6px] cursor-pointer m-20'
 			>
 				Find shelters near me
 			</button>

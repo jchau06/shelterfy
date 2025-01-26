@@ -106,23 +106,25 @@ const FindShelter = () => {
 
 	return (
 		<div className='flex'>
-			<AppMap
-				events={events}
-				userPosition={userPosition}
-				shelterMarkers={shelterMarkers}
-			/>
-			{loading && (
-				<div className='flex m-4 items-center gap-3'>
-					<span className='text-lg'>Fetching data</span>
-					<SpinnerCircularFixed
-						size={35}
-						thickness={100}
-						speed={100}
-						color='rgba(248, 113, 113, 1)'
-						secondaryColor='rgba(130, 130, 130, 1)'
-					/>
-				</div>
-			)}
+			<div>
+				<AppMap
+					events={events}
+					userPosition={userPosition}
+					shelterMarkers={shelterMarkers}
+				/>
+				{loading && (
+					<div className='flex m-4 items-center gap-3'>
+						<span className='text-lg'>Fetching data</span>
+						<SpinnerCircularFixed
+							size={35}
+							thickness={100}
+							speed={100}
+							color='rgba(248, 113, 113, 1)'
+							secondaryColor='rgba(130, 130, 130, 1)'
+						/>
+					</div>
+				)}
+			</div>
 			<SearchComponent
 				addShelters={addShelters}
 				userPosition={userPosition}
