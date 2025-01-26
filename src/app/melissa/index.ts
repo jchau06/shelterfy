@@ -17,7 +17,7 @@ const getLocation = async(addrLineOne:string, country:string, zipCode:string, lo
         }}
     );
     const jsonParsedResp = JSON.parse(response.data);
-    return findNearbyLocations(parseFloat(jsonParsedResp["Latitude"]), parseFloat(jsonParsedResp["Longitude"]));
+    return findNearbyLocations(parseFloat(jsonParsedResp["Records"]["Latitude"]), parseFloat(jsonParsedResp["Records"]["Longitude"]));
   } catch (error) {
     console.error("Error fetching data:", error);
   }
