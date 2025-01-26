@@ -58,9 +58,22 @@ const AppMap = ({ events, userPosition, shelterData }: AppMapProps) => {
 
 	const fireMarkers = events?.map((event, index) => {
 		if (event.categories[0].title === 'Wildfires') {
+			const lat = event.geometries[0].coordinates[1];
+			const lng = event.geometries[0].coordinates[0];
+			if (
+				!(
+					lat >= 32.5343 &&
+					lat <= 42.0095 &&
+					lng >= -124.4096 &&
+					lng <= -114.1312
+				)
+			) {
+				return null;
+			}
+
 			const position = {
-				lat: event.geometries[0].coordinates[1],
-				lng: event.geometries[0].coordinates[0],
+				lat: lat,
+				lng: lng,
 			};
 			return (
 				<Marker
