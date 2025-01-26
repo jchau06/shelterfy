@@ -30,9 +30,29 @@ type AppMapProps = {
 		lat: number;
 		lng: number;
 	} | null;
+	shelterData:
+		| {
+				address: string;
+				city: string;
+				description: string;
+				email_address: string;
+				facebook: string;
+				fax_number: string;
+				instagram: string;
+				location: string;
+				name: string;
+				official_website: string;
+				phone_number: string;
+				photo_urls: string[];
+				state: string;
+				twitter: string;
+				update_datetime: string;
+				zip_code: string;
+		  }[]
+		| null;
 };
 
-const AppMap = ({ events, userPosition }: AppMapProps) => {
+const AppMap = ({ events, userPosition, shelterData }: AppMapProps) => {
 	// 34.0467° N, 118.5464° W
 	const palisades = { lat: 34.0467, lng: -118.5464 };
 
@@ -54,6 +74,22 @@ const AppMap = ({ events, userPosition }: AppMapProps) => {
 		return null;
 	});
 
+	const shelterMarkers = shelterData?.map((shelter, index) => {
+		const positionArr = shelter.location.split(',').map(Number);
+		const position = {
+			lat: positionArr[0],
+			lng: positionArr[1],
+		};
+		return (
+			<Marker
+				key={index}
+				position={position}
+				icon='🏠'
+				infoWindowContent={shelter.name}
+			/>
+		);
+	});
+
 	return (
 		<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
 			<div className='w-[70vw] h-[80vh]'>
@@ -64,6 +100,7 @@ const AppMap = ({ events, userPosition }: AppMapProps) => {
 					mapId={process.env.NEXT_PUBLIC_MAP_ID}
 					reuseMaps
 					colorScheme='DARK'
+					disableDefaultUI
 				>
 					{fireMarkers}
 					{userPosition && (
@@ -73,6 +110,7 @@ const AppMap = ({ events, userPosition }: AppMapProps) => {
 							infoWindowContent='My current location'
 						/>
 					)}
+					{shelterMarkers}
 				</Map>
 			</div>
 		</APIProvider>

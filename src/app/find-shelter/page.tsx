@@ -4,9 +4,30 @@ import React, { useEffect, useState } from 'react';
 import SearchComponent from './SearchComponent';
 import AppMap from './app-map';
 import { SpinnerCircularFixed } from 'spinners-react';
+import axios, { AxiosResponse } from 'axios';
+
+type ShelterData = {
+	address: string;
+	city: string;
+	description: string;
+	email_address: string;
+	facebook: string;
+	fax_number: string;
+	instagram: string;
+	location: string;
+	name: string;
+	official_website: string;
+	phone_number: string;
+	photo_urls: string[];
+	state: string;
+	twitter: string;
+	update_datetime: string;
+	zip_code: string;
+}[];
 
 const FindShelter = () => {
 	const [events, setEvents] = useState(null);
+	const [shelterData, setShelterData] = useState<ShelterData | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [userPosition, setUserPosition] = useState<{
 		lat: number;
@@ -34,8 +55,31 @@ const FindShelter = () => {
 					console.log('Unknown error fetching wildfire data');
 					throw new Error('Unknown error fetching wildfire data');
 				}
-			} finally {
-				setLoading(false);
+			}
+		};
+
+		const getShelterData = async () => {
+			const url = 'https://homeless-shelter.p.rapidapi.com/location';
+
+			const params = {
+				lat: 33.648787,
+				lng: -117.842712,
+				radius: 10,
+			};
+			const headers = {
+				'x-rapidapi-host': 'homeless-shelter.p.rapidapi.com',
+				'x-rapidapi-key':
+					'fb5e98260emshf81df3cb1fd50cap129c09jsnc8066210ed42',
+			};
+
+			try {
+				const response = await axios.get(url, {
+					params,
+					headers,
+				});
+				setShelterData(response.data);
+			} catch (error) {
+				console.error('Error fetching shelters:', error);
 			}
 		};
 
@@ -56,14 +100,25 @@ const FindShelter = () => {
 		}
 
 		getEvents();
+		getShelterData();
 	}, []);
+
+	useEffect(() => {
+		if (events && shelterData) {
+			setLoading(false);
+		}
+	}, [events, shelterData]);
 
 	return (
 		<div>
-			<AppMap events={events} userPosition={userPosition} />
+			<AppMap
+				events={events}
+				userPosition={userPosition}
+				shelterData={shelterData}
+			/>
 			{loading && (
 				<div className='flex m-4 items-center gap-3'>
-					<span className='text-lg'>Fetching wildfire data</span>
+					<span className='text-lg'>Fetching data</span>
 					<SpinnerCircularFixed
 						size={35}
 						thickness={100}
