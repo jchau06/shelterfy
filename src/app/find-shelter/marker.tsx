@@ -25,6 +25,7 @@ const Marker = ({ position, icon, infoWindowContent }: MarkerProps) => {
 					onCloseClick={() => setOpen(false)}
 				>
 					<p className='text-black'>{infoWindowContent}</p>
+					<button>Save to Saved Locations</button>
 				</InfoWindow>
 			)}
 		</div>
