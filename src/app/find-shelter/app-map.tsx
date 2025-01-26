@@ -58,14 +58,18 @@ const AppMap = ({ events, userPosition }: AppMapProps) => {
 		<APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
 			<div className='w-[78vw] h-[80vh]'>
 				<Map
-					defaultCenter={palisades}
+					defaultCenter={userPosition || palisades}
 					defaultZoom={9}
 					gestureHandling='greedy'
 					mapId={process.env.NEXT_PUBLIC_MAP_ID}
 				>
 					{fireMarkers}
 					{userPosition && (
-						<Marker position={userPosition} icon='📍' />
+						<Marker
+							position={userPosition}
+							icon='📍'
+							infoWindowContent='My current location'
+						/>
 					)}
 				</Map>
 			</div>
