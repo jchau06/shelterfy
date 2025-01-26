@@ -27,3 +27,8 @@ body {
 	width: 125px; /* Adjust size */
 	height: auto; /* Maintain aspect ratio */
 }
+
+nextjs-portal {
+	display: none;
+  }
+  

@@ -13,6 +13,10 @@ type MarkerProps = {
 const Marker = ({ position, icon, infoWindowContent }: MarkerProps) => {
 	const [open, setOpen] = useState(false);
 
+	const handleSaveLocation = () => {
+		console.log('Success')
+	};
+
 	return (
 		<div>
 			<AdvancedMarker position={position} onClick={() => setOpen(true)}>
@@ -24,8 +28,17 @@ const Marker = ({ position, icon, infoWindowContent }: MarkerProps) => {
 					position={position}
 					onCloseClick={() => setOpen(false)}
 				>
-					<p className='text-black'>{infoWindowContent}</p>
-					<button>Save to Saved Locations</button>
+					<div className="flex flex-col items-center justify-center text-center">
+						<p className='text-black'>{infoWindowContent}</p>
+						{icon !== '🔥' && (
+							<button
+								className="w-full text-white border-none rounded-[6px] cursor-pointer bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 transition duration-300"
+								onClick={handleSaveLocation} // Trigger toast on button click
+							>
+								Save to Saved Locations
+							</button>
+						)}
+					</div>
 				</InfoWindow>
 			)}
 		</div>

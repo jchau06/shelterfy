@@ -8,6 +8,7 @@ import axios, { AxiosResponse } from 'axios';
 import { getUserLocation, getEvents } from '@/lib/utils';
 import Marker from './marker';
 
+
 type ShelterData = {
 	address: string;
 	city: string;

@@ -28,7 +28,7 @@ export default function RootLayout({
 						<div>
 							<Link href='/'>
 								<Image
-									src='/logo.png'
+									src='/shelterfy_logo2.png'
 									alt='Logo and Shelterfy name'
 									width={150}
 									height={30}
@@ -55,6 +55,7 @@ export default function RootLayout({
 							</SignedIn>
 						</div>
 					</nav>
+
 					<main className={exo.className}>{children}</main>
 				</body>
 			</html>

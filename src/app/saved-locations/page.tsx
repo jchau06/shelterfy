@@ -75,8 +75,8 @@ const FindShelter = () => {
 		}
 	}, [events]);
 
-	const addShelters = (shelterData: LocationData) => {
-		const shelterMarkers = shelterData?.map((shelter, index) => {
+	const addShelters = async (shelterData: LocationData) => {
+		 const shelterMarkers = await shelterData?.map((shelter, index) => {
 			const positionArr = shelter.location.split(',').map(Number);
 			const position = {
 				lat: positionArr[0],

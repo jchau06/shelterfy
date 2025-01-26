@@ -3,6 +3,10 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
+import Collapsible from './collapsible';
+
+
+
 // Seearch results are all type Shelter
 type Shelter = {
 	id: number;
@@ -92,15 +96,29 @@ const SearchComponent = ({
 	};
 
 	return (
-		<div>
-			<button
-				onClick={handleSearch}
-				className='w-full p-[10px] bg-[#007BFF] text-white border-none rounded-[6px] cursor-pointer m-20'
-			>
-				Find shelters near me
-			</button>
+		<div className="max-w-lg mx-auto mt-40 ml-10 mr-10">
+		  {/* Search Button */}
+		  <button
+			onClick={handleSearch}
+			className="w-full p-[10px] text-white border-none rounded-[6px] cursor-pointer my-6 bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 transition duration-300"
+		  >
+			{loading ? 'Searching...' : 'Find shelters near me'}
+		  </button>
+	
+		  {/* Collapsible Content */}
+		  <div className="mt-4">
+			<Collapsible title="Click here for Directions!">
+			  <p>Click on the above button to show shelters near you!</p>
+			  <p>Press on the 📍, 🔥, 🏠 to reveal their location!</p>
+			  <p>
+				After clicking 🏠, you can verify and add the shelter to your list of
+				saved locations!
+			  </p>
+			</Collapsible>
+		  </div>
 		</div>
-	);
-};
-
-export default SearchComponent;
+	  );
+	};
+	
+	export default SearchComponent;
+	
