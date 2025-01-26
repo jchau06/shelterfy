@@ -63,18 +63,17 @@ const SearchComponent = () => {
   };
 
   return (
-    <div
+<div
       style={{
-        position: "relative", // Fixed position to keep it on the right side of the screen
-        boxSizing: "border-box",
-        // right: "20px", // Space from the right edge
-        // transform: "translateY(-50%)", // Center it based on its height
+        position: "fixed", // Fixed position to keep it on the right side of the screen
+        top: "50%", // Center it vertically
+        right: "20px", // Space from the right edge
+        transform: "translateY(-50%)", // Center it based on its height
         backgroundColor: "#E0E0E0",
         padding: "20px",
         borderRadius: "12px",
-        width: "20rem",
+        maxWidth: "400px",
         textAlign: "center",
-        margin: "5rem 0 0 0",
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
       }}
     >
@@ -86,7 +85,7 @@ const SearchComponent = () => {
           color: "black",
         }}
       >
-        Search for Shelters Nearby
+        Search for Shelters Near
       </h2>
       <input
         type="text"
@@ -129,7 +128,6 @@ const SearchComponent = () => {
           border: "none",
           borderRadius: "6px",
           cursor: "pointer",
-          // box-sizing: "border-box",
         }}
       >
         Search
@@ -139,15 +137,13 @@ const SearchComponent = () => {
       {results.length > 0 && (
         <div
           style={{
-            marginTop: "2rem",
+            marginTop: "20px",
             maxHeight: "300px", // Set a maximum height for the results container
-            overflowY: "scroll", // Make the results scrollable
+            overflowY: "auto", // Make the results scrollable
             paddingRight: "10px", // Add some padding to the right to avoid the scrollbar being cut off
-            // box-sizing: "border-box"
           }}
-          >
-          <h3 className="text-black font-semibold"
-          >Search Results</h3>
+        >
+          <h3>Search Results</h3>
           <ul style={{ listStyleType: "none", padding: 0 }}>
             {results.map((result, index) => (
               <li

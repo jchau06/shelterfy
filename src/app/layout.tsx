@@ -18,9 +18,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body>
-          <a href="/">
+          <Link href="/">
             <img src="logo.png" className="logo"></img>
-          </a>
+          </Link>
 
           <nav className="flex justify-end m-5 space-x-4">
             <Link href="/saved-locations">My Saved Locations</Link>
