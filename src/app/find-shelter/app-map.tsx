@@ -1,7 +1,7 @@
 'use client';
 
 import { APIProvider, Map } from '@vis.gl/react-google-maps';
-import React, { useState } from 'react';
+import React, { JSX, useState } from 'react';
 import Marker from './marker';
 
 type AppMapProps = {
@@ -30,29 +30,10 @@ type AppMapProps = {
 		lat: number;
 		lng: number;
 	} | null;
-	shelterData:
-		| {
-				address: string;
-				city: string;
-				description: string;
-				email_address: string;
-				facebook: string;
-				fax_number: string;
-				instagram: string;
-				location: string;
-				name: string;
-				official_website: string;
-				phone_number: string;
-				photo_urls: string[];
-				state: string;
-				twitter: string;
-				update_datetime: string;
-				zip_code: string;
-		  }[]
-		| null;
+	shelterMarkers: JSX.Element[];
 };
 
-const AppMap = ({ events, userPosition, shelterData }: AppMapProps) => {
+const AppMap = ({ events, userPosition, shelterMarkers }: AppMapProps) => {
 	// 34.0467° N, 118.5464° W
 	const palisades = { lat: 34.0467, lng: -118.5464 };
 
@@ -85,22 +66,6 @@ const AppMap = ({ events, userPosition, shelterData }: AppMapProps) => {
 			);
 		}
 		return null;
-	});
-
-	const shelterMarkers = shelterData?.map((shelter, index) => {
-		const positionArr = shelter.location.split(',').map(Number);
-		const position = {
-			lat: positionArr[0],
-			lng: positionArr[1],
-		};
-		return (
-			<Marker
-				key={index}
-				position={position}
-				icon='🏠'
-				infoWindowContent={shelter.name}
-			/>
-		);
 	});
 
 	return (

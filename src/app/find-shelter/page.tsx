@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { JSX, useEffect, useState } from 'react';
 import SearchComponent from './SearchComponent';
 import AppMap from './app-map';
 import { SpinnerCircularFixed } from 'spinners-react';
 import axios, { AxiosResponse } from 'axios';
 import { getUserLocation, getEvents } from '@/lib/utils';
+import Marker from './marker';
 
 type ShelterData = {
 	address: string;
@@ -28,12 +29,12 @@ type ShelterData = {
 
 const FindShelter = () => {
 	const [events, setEvents] = useState(null);
-	const [shelterData, setShelterData] = useState<ShelterData | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [userPosition, setUserPosition] = useState<{
 		lat: number;
 		lng: number;
 	} | null>(null);
+	const [shelterMarkers, setShelterMarkers] = useState<JSX.Element[]>([]);
 
 	useEffect(() => {
 		const getEvents = async () => {
@@ -59,30 +60,6 @@ const FindShelter = () => {
 			}
 		};
 
-		const getShelterData = async () => {
-			const url = 'https://homeless-shelter.p.rapidapi.com/location';
-
-			const params = {
-				lat: 33.648787,
-				lng: -117.842712,
-				radius: 10,
-			};
-			const headers = {
-				'x-rapidapi-host': 'homeless-shelter.p.rapidapi.com',
-				'x-rapidapi-key': process.env.NEXT_PUBLIC_SHELTER_API_KEY,
-			};
-
-			try {
-				const response = await axios.get(url, {
-					params,
-					headers,
-				});
-				setShelterData(response.data);
-			} catch (error) {
-				console.error('Error fetching shelters:', error);
-			}
-		};
-
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 				(position) => {
@@ -100,21 +77,39 @@ const FindShelter = () => {
 		}
 
 		getEvents();
-		getShelterData();
 	}, []);
 
 	useEffect(() => {
-		if (events && shelterData) {
+		if (events) {
 			setLoading(false);
 		}
-	}, [events, shelterData]);
+	}, [events]);
+
+	const addShelters = (shelterData: ShelterData) => {
+		const shelterMarkers = shelterData?.map((shelter, index) => {
+			const positionArr = shelter.location.split(',').map(Number);
+			const position = {
+				lat: positionArr[0],
+				lng: positionArr[1],
+			};
+			return (
+				<Marker
+					key={index}
+					position={position}
+					icon='🏠'
+					infoWindowContent={shelter.name}
+				/>
+			);
+		});
+		setShelterMarkers(shelterMarkers);
+	};
 
 	return (
-		<div>
+		<div className='flex'>
 			<AppMap
 				events={events}
 				userPosition={userPosition}
-				shelterData={shelterData}
+				shelterMarkers={shelterMarkers}
 			/>
 			{loading && (
 				<div className='flex m-4 items-center gap-3'>
@@ -128,7 +123,10 @@ const FindShelter = () => {
 					/>
 				</div>
 			)}
-			<SearchComponent></SearchComponent>
+			<SearchComponent
+				addShelters={addShelters}
+				userPosition={userPosition}
+			></SearchComponent>
 		</div>
 	);
 };
