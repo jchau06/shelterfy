@@ -10,6 +10,11 @@ import './globals.css';
 import Link from 'next/link';
 import Image from 'next/image';
 
+import { Exo } from 'next/font/google'
+
+const exo = Exo({ subsets: ['latin']})
+
+
 export default function RootLayout({
 	children,
 }: {
@@ -31,12 +36,12 @@ export default function RootLayout({
 							</Link>
 						</div>
 						<div className='flex items-center justify-center gap-x-9'>
-							<Link href='/saved-locations'>
+							<Link href='/saved-locations' className={exo.className}>
 								<span className='font-bold text-xl'>
 									Saved Locations
 								</span>
 							</Link>
-							<Link href='/find-shelter'>
+							<Link href='/find-shelter' className={exo.className}>
 								<span className='font-bold text-xl'>
 									Find Shelter
 								</span>
@@ -50,7 +55,7 @@ export default function RootLayout({
 							</SignedIn>
 						</div>
 					</nav>
-					<main>{children}</main>
+					<main className={exo.className}>{children}</main>
 				</body>
 			</html>
 		</ClerkProvider>
