@@ -6,7 +6,8 @@ import AppMap from './app-map';
 import { SpinnerCircularFixed } from 'spinners-react';
 import axios, { AxiosResponse } from 'axios';
 import { getUserLocation, getEvents } from '@/lib/utils';
-
+import verifyBuisness from "../melissa";
+import { reverificationErrorResponse } from '@clerk/nextjs/server';
 type ShelterData = {
 	address: string;
 	city: string;
@@ -77,7 +78,21 @@ const FindShelter = () => {
 					params,
 					headers,
 				});
-				setShelterData(response.data);
+				const filteredShelters = response.data.filter((shelter: { address: string; zip_code: string; city: string; state: string; }) => verifyBuisness(shelter.address, shelter.zip_code, shelter.city, shelter.state));
+				
+				setShelterData(filteredShelters);
+				filteredShelters.forEach(async (shelter:any) => {
+					const {lati, longi}:{lati:number, longi:number} = shelter.location.split(',').map((str:string) => parseFloat(str));
+					await axios.post("http://localhost:3001/add-location",
+					{params: {
+						stateAbbr:shelter.state,
+						zipCode:shelter.zip_code,
+						lat:lati,
+						long:longi,
+						isShelter:true
+
+					}}
+				)});
 			} catch (error) {
 				console.error('Error fetching shelters:', error);
 			}

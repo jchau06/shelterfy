@@ -53,4 +53,4 @@ const verifyProperty = async (melissaAddrKey:string) =>{
 	}
 }
 
-export default {verifyBuisness};
+export default verifyBuisness;
