@@ -68,6 +68,7 @@ const SearchComponent = () => {
 		const { name, value } = e.target;
 		setFormData({ ...formData, [name]: value });
 	};
+  const [userPressed, setPressed] = useState(false); //Edit no results found message.
 
 	const handleSearch = () => {
 		console.log('submitted');
@@ -79,7 +80,9 @@ const SearchComponent = () => {
 		// console.log('ZIP:', formData.zipCode);
 
 		// setLoading(false);
+    // setPressed(true); // If no results are found => error message is output.
 	};
+
 
 	return (
 		<div
@@ -170,7 +173,7 @@ const SearchComponent = () => {
 					</ul>
 				</div>
 			)}
-			{results.length === 0 && !loading && (
+			{results.length === 0 && !loading && userPressed && (
 				<p style={{ color: '#888' }}>
 					No results found. Try a different search.
 				</p>
