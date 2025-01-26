@@ -24,7 +24,11 @@ const getLocation = async (
 				postal: zipCode,
 			},
 		});
-		return JSON.parse(response.data);
+		const jsonParsedResp = JSON.parse(response.data);
+		return findNearbyLocations(
+			parseFloat(jsonParsedResp['Records']['Latitude']),
+			parseFloat(jsonParsedResp['Records']['Longitude'])
+		);
 	} catch (error) {
 		console.error('Error fetching data:', error);
 	}
@@ -80,3 +84,5 @@ const findNearbyLocations = async (lat: number, long: number) => {
 };
 
 export default { findNearbyLocations, getLocation, verifyBuisness };
+
+export default { getLocation, verifyBuisness };
