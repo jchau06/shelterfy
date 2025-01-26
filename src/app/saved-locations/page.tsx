@@ -8,8 +8,8 @@ import {
 	Pin,
 } from '@vis.gl/react-google-maps';
 import React, { useState } from 'react';
-import SavedLocations from './SavedLocations';
-const FindShelter = () => {
+// import SavedLocations from './SavedLocations';
+const SavedLocations = () => {
 	// 34.0467° N, 118.5464° W
 	const palisades = { lat: 34.0467, lng: -118.5464 };
 	const [open, setOpen] = useState(false);
@@ -47,4 +47,4 @@ const FindShelter = () => {
 	);
 };
 
-export default FindShelter;
+export default SavedLocations;

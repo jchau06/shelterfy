@@ -3,7 +3,7 @@
 
 import React from "react";
 
-const SavedLocations = () => {
+const Storage = () => {
   return (
     <div
       style={{
@@ -29,8 +29,9 @@ const SavedLocations = () => {
       >
         Saved Locations
       </h2>
+      {/* loop through all the data here, display in the table */}
     </div>
   );
 };
 
-export default SavedLocations;
+export default Storage;

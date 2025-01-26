@@ -18,7 +18,8 @@
     "pg": "^8.13.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "run-parallel": "^1.2.0"
+    "run-parallel": "^1.2.0",
+    "spinners-react": "^1.0.10"
   },
   "devDependencies": {
     "@chakra-ui/provider": "^2.4.2",
