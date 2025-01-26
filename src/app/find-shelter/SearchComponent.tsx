@@ -14,6 +14,7 @@ const SearchComponent = () => {
 	const [zipCode, setZipCode] = useState('');
 	const [results, setResults] = useState<Shelter[]>([]);
 	const [loading, setLoading] = useState(false); // Add loading state
+  const [userPressed, setPressed] = useState(false); //Edit no results found message.
 
 	const handleSearch = () => {
 		if (!address && !zipCode) {
@@ -105,7 +106,9 @@ const SearchComponent = () => {
 		console.log(filteredResults);
 		setResults(filteredResults); // Set the filtered results
 		setLoading(false); // Set loading to false after fetching the results
+    setPressed(true);
 	};
+
 
 	return (
 		<div
@@ -214,7 +217,7 @@ const SearchComponent = () => {
 					</ul>
 				</div>
 			)}
-			{results.length === 0 && !loading && (
+			{results.length === 0 && !loading && userPressed && (
 				<p style={{ color: '#888' }}>
 					No results found. Try a different search.
 				</p>
