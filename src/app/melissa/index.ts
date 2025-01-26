@@ -43,7 +43,7 @@ const verifyProperty = async (melissaAddrKey:string) =>{
 	try {
 		const response = await axios.get(PROPERTY_VERIF_BASE, {
 			params: {
-				id: env.MELISSA_LICENSE_KEY,
+				id: process.env.MELISSA_LICENSE_KEY,
 				mak: melissaAddrKey
 			},
 		});
