@@ -8,7 +8,7 @@ import {
 	Pin,
 } from '@vis.gl/react-google-maps';
 import React, { useState } from 'react';
-// import SavedLocations from './SavedLocations';
+import Storage from './Storage';
 const SavedLocations = () => {
 	// 34.0467° N, 118.5464° W
 	const palisades = { lat: 34.0467, lng: -118.5464 };
@@ -42,7 +42,7 @@ const SavedLocations = () => {
 					</Map>
 				</div>
 			</APIProvider>
-            <SavedLocations></SavedLocations>
+            <Storage></Storage>
 		</div>
 	);
 };
