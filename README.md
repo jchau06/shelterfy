@@ -1,3 +1,10 @@
+## Demo Video
+
+
+https://github.com/user-attachments/assets/3873f0c6-5dc0-4f7a-b272-bb5cf52db02c
+
+
+
 ## Inspiration
 With the recent LA wildfires, we noticed how so many people were deprived of the necessary resources to get back on their feet; for some, these resources were unknown to them, and some were even scammed with false advertisements. We believed that if there was a way for people to know their proximity to danger and the closest places they could seek refuge, they could recover and get back on their feet much quicker. Thus, we came up with Shelterfy.
 
